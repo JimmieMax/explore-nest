@@ -6,7 +6,6 @@ import {
   Injectable,
 } from '@nestjs/common';
 import { Observable, of, tap } from 'rxjs';
-import { MerchantIdQueryKey } from '../decorators/merchant.query';
 import { Lock } from '../lock';
 import { logger } from '../logger';
 import {
@@ -14,6 +13,7 @@ import {
   ServerExceptionCode,
 } from '../models/server.exception';
 
+const UserIdQueryKey = 'user-id';
 @Injectable()
 export class HttpCacheInterceptor extends CacheInterceptor {
   private lock = new Lock();
@@ -79,7 +79,7 @@ export class HttpCacheInterceptor extends CacheInterceptor {
     const req = context.switchToHttp().getRequest();
     let key = req.path + '?';
     const query = req.query;
-    const merchantId = req[MerchantIdQueryKey];
+    const merchantId = req[UserIdQueryKey];
     if (merchantId) {
       query['merchantId'] = merchantId;
     }
@@ -96,7 +96,7 @@ export class HttpCacheInterceptor extends CacheInterceptor {
   protected isRequestCacheable(context: ExecutionContext): boolean {
     const req = context.switchToHttp().getRequest();
     // 如果没有merchantid，说明没登录，则不考虑缓存，防止数据串
-    if (!req[MerchantIdQueryKey]) {
+    if (!req[UserIdQueryKey]) {
       return false;
     }
     const method = req.method as string;

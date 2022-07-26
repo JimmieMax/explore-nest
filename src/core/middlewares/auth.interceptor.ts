@@ -1,4 +1,4 @@
-import { ConfigService } from '@nestjs/config';
+// import { ConfigService } from '@nestjs/config';
 import {
   CallHandler,
   ExecutionContext,
@@ -17,8 +17,8 @@ const RequestAccessTokenKey = 'access-token';
 
 @Injectable()
 export class AuthInterceptor implements NestInterceptor {
-  @Inject()
-  private readonly configService: ConfigService;
+  // @Inject()
+  // private readonly configService: ConfigService;
 
   async intercept(
     context: ExecutionContext,

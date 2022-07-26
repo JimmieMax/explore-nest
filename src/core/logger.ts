@@ -1,6 +1,5 @@
 import { LoggerService } from '@nestjs/common';
 import { createLogger, transports, format } from 'winston';
-import DailyRotateFile from 'winston-daily-rotate-file';
 
 const LogFolder = '/opt/log/cyy_bff_node';
 const logger = createLogger({
@@ -25,23 +24,6 @@ const logger = createLogger({
       filename: `${LogFolder}/error.log`,
       level: 'error',
     }),
-    // todo: 这里报错，还是需要日志回滚的
-    // new DailyRotateFile({
-    //   filename: 'info-%DATE%.log',
-    //   datePattern: 'YYYY-MM-DD',
-    //   zippedArchive: true,
-    //   level: 'info',
-    //   maxSize: '20m',
-    //   maxFiles: '7d'
-    // }),
-    // new DailyRotateFile({
-    //   filename: 'error-%DATE%.log',
-    //   datePattern: 'YYYY-MM-DD',
-    //   zippedArchive: true,
-    //   level: 'error',
-    //   maxSize: '20m',
-    //   maxFiles: '30d'
-    // })
   ],
 });
 
