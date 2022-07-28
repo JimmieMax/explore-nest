@@ -71,3 +71,12 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 ## License
 
 Nest is [MIT licensed](LICENSE).
+
+## Config
+
+本地的数据库配置
+DB_HOST=1.1.1.1
+DB_PORT=3306
+DB_NAME=db_name
+DB_USERNAME=reader
+DB_PASSWORD=reader_password

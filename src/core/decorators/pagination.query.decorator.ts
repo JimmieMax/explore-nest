@@ -1,13 +1,13 @@
 import { createParamDecorator, ExecutionContext } from '@nestjs/common';
 import { Request } from 'express';
-import { Pagination } from '../models/pagination';
+import { Pagination } from '../models/pagination.model';
 
 export const QueryPagination = createParamDecorator(
   (data: unknown, context: ExecutionContext) => {
     const request = context.switchToHttp().getRequest<Request>();
     request.query;
-    const length = Number.parseInt(request.query['length'] as string);
-    const offset = Number.parseInt(request.query['offset'] as string);
-    return new Pagination(length, offset);
+    const pageSize = Number.parseInt(request.query['pageSize'] as string);
+    const page = Number.parseInt(request.query['page'] as string);
+    return new Pagination(pageSize, page);
   },
 );

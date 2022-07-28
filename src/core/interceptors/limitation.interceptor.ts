@@ -10,7 +10,7 @@ import { Observable } from 'rxjs';
 import {
   ServerException,
   ServerExceptionCode,
-} from '../models/server.exception';
+} from '../models/server.exception.model';
 
 const REFLECTOR = 'Reflector';
 const LimitationMetadata = 'limitation';

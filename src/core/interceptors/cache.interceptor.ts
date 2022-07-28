@@ -11,7 +11,7 @@ import { logger } from '../logger';
 import {
   ServerException,
   ServerExceptionCode,
-} from '../models/server.exception';
+} from '../models/server.exception.model';
 
 const UserIdQueryKey = 'user-id';
 @Injectable()

@@ -5,16 +5,16 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "type": "pwa-node",
+            "name": "Debug",
+            "type": "node",
             "request": "launch",
-            "name": "Launch Program",
+            "console": "integratedTerminal", // 终端打印日志
+            "runtimeExecutable": "yarn",
+            "runtimeArgs": [
+                "start:debug"
+            ],
             "skipFiles": [
                 "<node_internals>/**"
-            ],
-            "program": "${workspaceFolder}/src/main.ts",
-            "preLaunchTask": "tsc: build - tsconfig.json",
-            "outFiles": [
-                "${workspaceFolder}/dist/**/*.js"
             ]
         }
     ]
