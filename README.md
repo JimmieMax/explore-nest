@@ -77,6 +77,11 @@ Nest is [MIT licensed](LICENSE).
 本地的数据库配置
 DB_HOST=1.1.1.1
 DB_PORT=3306
-DB_NAME=db_name
-DB_USERNAME=reader
-DB_PASSWORD=reader_password
+DB_NAME=name
+DB_USERNAME=username
+DB_PASSWORD=password
+
+## Swagger
+
+Swagger JSON file, navigate to http://localhost:10011/api-json
+Swagger documentation, navigate to http://localhost:10011/api

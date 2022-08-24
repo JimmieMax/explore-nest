@@ -16,6 +16,19 @@
             "skipFiles": [
                 "<node_internals>/**"
             ]
+        },
+        {
+            "name": "Test:e2e",
+            "type": "node",
+            "request": "launch",
+            "console": "integratedTerminal", // 终端打印日志
+            "runtimeExecutable": "yarn",
+            "runtimeArgs": [
+                "test:e2e"
+            ],
+            "skipFiles": [
+                "<node_internals>/**"
+            ]
         }
     ]
 }

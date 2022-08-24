@@ -1,3 +1,4 @@
+import { CatsDao } from './cats.dao';
 import {
   Body,
   Controller,
@@ -14,41 +15,36 @@ import {
   UseInterceptors,
   UsePipes,
 } from '@nestjs/common';
-import { logger } from 'src/core/logger';
+import { ApiTags, ApiOkResponse, ApiOperation } from '@nestjs/swagger';
+import { logger } from '../core/logger';
 import {
   ServerException,
   ServerExceptionCode,
-} from 'src/core/models/server.exception.model';
-import { ValidationPipe } from 'src/core/pipes/validation.pipe';
+} from '../core/models/server.exception.model';
+import { ValidationPipe } from '../core/pipes/validation.pipe';
 import { CatsService } from './cats.service';
-import { CreateCatDto, FindCatsDto } from './cats.dto';
-import { QueryUserId } from 'src/core/decorators/user.query.decorator';
-import { Roles } from 'src/core/decorators/roles.decorator';
-import { TimeoutInterceptor } from 'src/core/interceptors/timeout.interceptor';
+import { CatDto, CreateCatDto } from './cats.dto';
+import { QueryUserId } from '../core/decorators/user.query.decorator';
+import { Roles } from '../core/decorators/roles.decorator';
+import { TimeoutInterceptor } from '../core/interceptors/timeout.interceptor';
 
 @Controller('cats')
+@ApiTags('cats')
 export class CatsController {
   @Inject()
   private readonly catsService: CatsService;
 
   @Get()
+  @ApiOperation({ summary: '查询所有cats', description: '' })
+  @ApiOkResponse({ type: [CatDto] })
   @UseInterceptors(TimeoutInterceptor)
-  async findBy(
-    @Query(new ValidationPipe()) findCatsDto: FindCatsDto,
-  ): Promise<any> {
-    logger.info(findCatsDto);
-    const wait = () => {
-      return new Promise((resolve) => {
-        setTimeout(() => {
-          resolve(true);
-        }, 2000);
-      });
-    };
-    await wait();
-    return this.catsService.findBy(findCatsDto.name);
+  async findBy(@Query(new ValidationPipe()) catDto: CatDto): Promise<CatDto[]> {
+    logger.info(catDto);
+    return this.catsService.findBy(catDto.name);
   }
 
   @Get(':id')
+  @ApiOperation({ summary: '根据ID查cat', description: 'id为必填' })
   findByName(@Param('id') name: string): string {
     if (!['pig', 'chicken'].includes(name)) {
       throw new ServerException(

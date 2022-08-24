@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { CatDto } from './cats.dto';
 import { CatsEntity } from './cats.entity';
 
 @Injectable()
@@ -21,6 +22,6 @@ export class CatsDao {
     if (!rawValues) {
       return [];
     }
-    return rawValues;
+    return rawValues.map((raw) => new CatDto(raw['id'], raw['name']));
   }
 }

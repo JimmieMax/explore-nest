@@ -1,8 +1,8 @@
 import { IsString, IsInt, Length, IsOptional, Min, Max } from 'class-validator';
-
+import { ApiProperty } from '@nestjs/swagger';
 export class CreateCatDto {
   @IsString()
-  @Length(1, 10)
+  @Length(1, 10, { message: '名称长度在1-10之间' })
   name: string;
 
   @IsInt()
@@ -14,15 +14,23 @@ export class CreateCatDto {
   breed: string;
 }
 
-export class FindCatsDto {
+export class CatDto {
+  @ApiProperty()
   @IsOptional()
-  @Length(1, 10)
+  @Length(1, 10, { message: '名称长度在1-10之间' })
   name: string;
 
+  @ApiProperty()
   @IsOptional()
   age: string;
 
+  @ApiProperty()
   @IsOptional()
   @IsString()
   breed: string;
+
+  constructor(name, age) {
+    this.name = name;
+    this.age = age;
+  }
 }

@@ -1,7 +1,10 @@
 import { CacheInterceptor, Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { TasksModule } from './task/task.module';
+import { ScheduleModule } from '@nestjs/schedule';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
 import { LimitationInterceptor } from './core/interceptors/limitation.interceptor';
 import { PerformanceInterceptor } from './core/interceptors/performance.interceptor';
 import { ResponseInterceptor } from './core/interceptors/response.interceptor';
@@ -18,8 +21,13 @@ import { AuthGuard } from './core/guards/auth.guard';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { TimeoutInterceptor } from './core/interceptors/timeout.interceptor';
 import { CatsModule } from './cats/cats.module';
+
 @Module({
   imports: [
+    ThrottlerModule.forRoot({
+      ttl: 60, //1分钟
+      limit: 10, //请求10次
+    }),
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: '/opt/nest_configs/cyy_bff_node/config.txt',
@@ -39,6 +47,8 @@ import { CatsModule } from './cats/cats.module';
         logging: true,
       }),
     }),
+    ScheduleModule.forRoot(),
+    TasksModule,
     HealthCheckModule,
     UserModule,
     CatsModule,
@@ -53,6 +63,10 @@ import { CatsModule } from './cats/cats.module';
     PerformanceInterceptor,
     TimeoutInterceptor,
     // CacheInterceptor,
+    {
+      provide: APP_GUARD,
+      useClass: ThrottlerGuard,
+    },
     {
       provide: APP_GUARD,
       useClass: AuthGuard,
